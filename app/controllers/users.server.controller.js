@@ -34,11 +34,32 @@ exports.userByID = function(req, res, next, id){
     if(err){
       return next(err);
     }else{
-      console.log('id ', id);
-      console.log('user ', user);
-      //res.user = user; orig
-      res.json(user);
+      req.user = user;
       next();
     }
+  });
+};
+
+exports.update = function(req, res, next) {
+  //console.log("updating: ", req);
+  //console.log("updating id : ", req.params.userId);
+  User.findByIdAndUpdate(req.user.id, req.body, function(err, user) {
+  //User.findByIdAndUpdate(req.params.userId, req.body, function(err, user) {
+    if (err) {
+      return next(err);
+    } else {
+      res.json(user);
+    }
+  });
+};
+
+exports.delete = function(req, res, next){
+  console.log('user: ', req.user);
+  req.user.remove(function(err){
+     if(err){
+       next(err);
+     }else{
+       res.json(req.user);
+     }
   });
 };
