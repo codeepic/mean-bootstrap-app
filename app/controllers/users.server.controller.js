@@ -22,13 +22,7 @@ exports.list = function(re, res, next){
   });
 };
 
-//retrieve only username and email if you use:
-//User.find({}, 'username email', function(err, users){
-
-exports.read = function(req, res){
-  res.json(req.user);
-};
-
+//MIDDLEWARE FN
 exports.userByID = function(req, res, next, id){
   User.findOne({_id: id}, function(err, user){
     if(err){
@@ -40,8 +34,11 @@ exports.userByID = function(req, res, next, id){
   });
 };
 
+exports.read = function(req, res){
+  res.json(req.user);
+};
+
 exports.update = function(req, res, next) {
-  //console.log("updating: ", req);
   //console.log("updating id : ", req.params.userId);
   User.findByIdAndUpdate(req.user.id, req.body, function(err, user) {
   //User.findByIdAndUpdate(req.params.userId, req.body, function(err, user) {
@@ -54,7 +51,6 @@ exports.update = function(req, res, next) {
 };
 
 exports.delete = function(req, res, next){
-  console.log('user: ', req.user);
   req.user.remove(function(err){
      if(err){
        next(err);
