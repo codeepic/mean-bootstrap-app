@@ -17,7 +17,7 @@ module.exports = function(){
         });
       }
 
-      if(!user.authentuicate(password)){
+      if(!user.authenticate(password)){
         return done(null, false, {
           message: 'Invalid password'
         });
